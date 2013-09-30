@@ -1,0 +1,19 @@
+{
+    "name": "mwcavender/git",
+    "description": "A library in php to interface with Git repositories",
+    "license": "MIT",
+    "require": {
+        "mwcavender/executer": "1.0.*"    
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/mwcavender/executer.git"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "MWCavender\\Git\\": "src/"
+        }
+    }
+}
