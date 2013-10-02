@@ -64,7 +64,9 @@ class GitRepo extends Executer
 
     protected function getCurrentBranch()
     {
-        $branches = $this->getBranches();
+        $output = $this->addArgument('branch')->execute()->getOutput();
+
+        $branches = explode(PHP_EOL, $output);
 
         foreach ($branches as $branch) {
             if (strlen($branch) > 0 && substr($branch, 0, 1) === '*') {
