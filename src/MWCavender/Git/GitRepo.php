@@ -5,29 +5,78 @@ use MWCavender\Common\Executer;
 
 class GitRepo extends Executer
 {
-    public function __construct()
+    public function __call(name, arguments)
+    {
+        return call_user_func_array(array($this, $name), $arguments);
+    }
+
+    public static function __callStatic(name, arguments)
+    {
+        $instance = new self;
+
+        return call_user_func_array(array($instance, $name), $arguments);
+    }
+
+    public function __construct($repo_path = null)
     {
         $this->setApplication('git');
+
+        if ($repo_path !== null) {
+            $this->setWorkingDirectory($repo_path);
+        }
     }
 
-    public static function checkout($branch)
+    protected function checkout($branch)
     {
-        $instance = (new static)->addArgument('checkout')->addArgument($branch);
+        $this->addArgument('checkout')->addArgument($branch);
 
-        return $instance;
+        return $this->execute();
     }
 
-    public static function clone($repo)
+    protected function clone($repo, $target = null)
     {
-        $instance = (new static)->addArgument('clone')->addArgument($repo);
+        $this->addArgument('clone')->addArgument($repo);
 
-        return $instance;
+        if ($target !== null) {
+            $target = realpath($target);
+            $this->addArgument($target);
+        }
+
+        return $this->execute();
     }
 
-    public function into($path)
+    protected function getBranches()
     {
-        $this->addArgument(realpath($path));
+        $output = $this->addArgument('branch')->execute()->getOutput();
 
-        return $this;
+        return explode(PHP_EOL, $output);
+    }
+
+    protected function getCurrentBranch()
+    {
+        $branches = $this->getBranches();
+
+        foreach ($branches as $branch) {
+            if (strlen($branch) > 0 && substr($branch, 0, 1) === '*') {
+                return substr($branch, 2);
+            }
+        }
+
+        return '';
+    }
+
+    protected function pull($remote = null, $branch = null)
+    {
+        $this->addArgument('pull');
+
+        if ($remote !== null) {
+            $this->addArgument($remote);
+        }
+
+        if ($branch !== null) {
+            $this->addArgument($branch);
+        }
+
+        return $this->execute();
     }
 }
