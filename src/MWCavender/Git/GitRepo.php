@@ -1,4 +1,5 @@
 <?php
+namespace MWCavender\Git;
 
 use MWCavender\Common\Executer;
 
