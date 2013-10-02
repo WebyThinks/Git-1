@@ -49,7 +49,17 @@ class GitRepo extends Executer
     {
         $output = $this->addArgument('branch')->execute()->getOutput();
 
-        return explode(PHP_EOL, $output);
+        $branches = explode(PHP_EOL, $output);
+
+        foreach ($branches as $i => &$branch) {
+            if (empty($branch)) {
+                unset($branches[$i]);
+            }
+
+            $branch = str_replace('* ', '', $branch);
+        }
+
+        return $branches;
     }
 
     protected function getCurrentBranch()
