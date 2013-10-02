@@ -77,6 +77,21 @@ class GitRepo extends Executer
         return '';
     }
 
+    public function getTags()
+    {
+        $output = $this->addArgument('tag')->execute()->getOutput();
+
+        $tags = explode(PHP_EOL, $output);
+
+        foreach ($tags as $i => $tag) {
+            if (empty($tag)) {
+                unset($tags[$i]);
+            }
+        }
+
+        return $tags;
+    }
+
     protected function pull($remote = null, $branch = null)
     {
         $this->addArgument('pull');
