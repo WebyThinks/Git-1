@@ -5,12 +5,12 @@ use MWCavender\Common\Executer;
 
 class GitRepo extends Executer
 {
-    public function __call(name, arguments)
+    public function __call($name, $arguments)
     {
         return call_user_func_array(array($this, $name), $arguments);
     }
 
-    public static function __callStatic(name, arguments)
+    public static function __callStatic($name, $arguments)
     {
         $instance = new self;
 
@@ -33,7 +33,7 @@ class GitRepo extends Executer
         return $this->execute();
     }
 
-    protected function clone($repo, $target = null)
+    protected function cloneRepo($repo, $target = null)
     {
         $this->addArgument('clone')->addArgument($repo);
 
