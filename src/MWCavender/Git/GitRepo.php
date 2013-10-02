@@ -45,7 +45,7 @@ class GitRepo extends Executer
         return $this->execute();
     }
 
-    protected function getBranches()
+    public function getBranches()
     {
         $output = $this->addArgument('branch')->execute()->getOutput();
 
@@ -62,7 +62,7 @@ class GitRepo extends Executer
         return $branches;
     }
 
-    protected function getCurrentBranch()
+    public function getCurrentBranch()
     {
         $output = $this->addArgument('branch')->execute()->getOutput();
 
