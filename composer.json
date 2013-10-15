@@ -1,0 +1,13 @@
+{
+    "name": "mwcavender/git",
+    "description": "A library in php to interface with Git repositories",
+    "license": "MIT",
+    "require": {
+        "mwcavender/executer": "1.0.*"    
+    },
+    "autoload": {
+        "psr-0": {
+            "MWCavender\\Git\\": "src/"
+        }
+    }
+}
